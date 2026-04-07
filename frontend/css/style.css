@@ -1,0 +1,105 @@
+/* PokéGrade Styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #1a1a2e;
+  color: #eee;
+  min-height: 100vh;
+}
+
+header {
+  background: #16213e;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #e63946;
+}
+
+header h1 { color: #f4d03f; font-size: 1.8rem; }
+
+nav a {
+  color: #eee;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+}
+nav a:hover { color: #f4d03f; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+.hero {
+  text-align: center;
+  padding: 4rem 0 2rem;
+}
+.hero h2 { font-size: 2.2rem; color: #f4d03f; margin-bottom: 1rem; }
+.hero p { color: #aaa; margin-bottom: 2rem; font-size: 1.1rem; }
+
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; }
+
+.btn {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary { background: #e63946; color: white; }
+.btn-primary:hover { background: #c1121f; }
+.btn-secondary { background: #16213e; color: #f4d03f; border: 2px solid #f4d03f; }
+.btn-secondary:hover { background: #f4d03f; color: #1a1a2e; }
+
+.suggested-cards { margin-top: 3rem; }
+.suggested-cards h2 { color: #f4d03f; margin-bottom: 0.5rem; }
+.suggested-cards p { color: #aaa; margin-bottom: 1.5rem; }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: #16213e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #0f3460;
+}
+.card h3 { color: #f4d03f; margin-bottom: 0.25rem; }
+.card .set { color: #888; font-size: 0.9rem; margin-bottom: 1rem; }
+.prices { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+.psa9 { color: #aaa; font-size: 0.95rem; }
+.arrow { color: #e63946; }
+.psa10 { color: #4caf50; font-weight: 600; }
+.diff { color: #81c784; font-size: 0.9rem; font-weight: 500; }
+
+/* Regrade & Snipe pages */
+.page-title { color: #f4d03f; font-size: 1.8rem; margin-bottom: 0.5rem; }
+.page-subtitle { color: #888; margin-bottom: 2rem; }
+
+.input-group { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.input-group input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #0f3460;
+  background: #16213e;
+  color: #eee;
+  font-size: 1rem;
+  min-width: 200px;
+}
+.input-group input:focus { outline: 2px solid #f4d03f; }
+
+.results-box {
+  background: #16213e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #0f3460;
+  min-height: 200px;
+}
+.grade-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #0f3460; }
+.grade-label { color: #aaa; }
+.grade-value { color: #f4d03f; font-weight: 600; }

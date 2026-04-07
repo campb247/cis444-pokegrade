@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Regrade – PokéGrade</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+  <header>
+    <h1>PokéGrade</h1>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="regrade.html">Regrade</a>
+      <a href="snipe.html">Snipe</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 class="page-title">Regrade a Card</h2>
+    <p class="page-subtitle">Enter a PSA certification number or upload a card image to analyze its regrade potential.</p>
+
+    <div class="input-group">
+      <input type="text" id="cert-input" placeholder="PSA Certification Number (e.g. 12345678)" />
+      <button class="btn btn-primary" onclick="lookupByCert()">Look Up</button>
+    </div>
+
+    <p style="color:#888; text-align:center; margin-bottom:1.5rem;">— or upload an image —</p>
+
+    <div class="input-group">
+      <input type="file" id="image-input" accept="image/*" />
+      <button class="btn btn-secondary" onclick="analyzeImage()">Analyze Image</button>
+    </div>
+
+    <div class="results-box" id="results">
+      <p style="color:#888">Results will appear here after analysis.</p>
+    </div>
+  </main>
+
+  <script src="../js/regrade.js"></script>
+</body>
+</html>
