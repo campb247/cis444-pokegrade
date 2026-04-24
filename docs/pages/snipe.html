@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Snipe – PokéGrade</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+  <header>
+    <h1>PokéGrade</h1>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="regrade.html">Regrade</a>
+      <a href="snipe.html">Snipe</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 class="page-title">Snipe Cards</h2>
+    <p class="page-subtitle">Search eBay for PSA 9 listings sorted by newest — the freshest listings are least likely to have been reviewed by other collectors.</p>
+
+    <div class="input-group">
+      <input type="text" id="card-input" placeholder="Card name (e.g. Charizard Base Set)" />
+      <button class="btn btn-primary" onclick="searchCards()">Search eBay</button>
+    </div>
+
+    <div class="results-box" id="results">
+      <p style="color:#888">Search results will appear here.</p>
+    </div>
+  </main>
+
+  <script src="../js/snipe.js"></script>
+</body>
+</html>

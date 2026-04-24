@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Regrade – PokéGrade</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body>
+  <header>
+    <h1>PokéGrade</h1>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="regrade.html">Regrade</a>
+      <a href="snipe.html">Snipe</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 class="page-title">Regrade a Card</h2>
+    <p class="page-subtitle">Enter a PSA certification number or upload a card image to analyze its regrade potential.</p>
+
+    <div class="input-group">
+      <input type="text" id="cert-input" placeholder="PSA Certification Number (e.g. 12345678)" />
+      <button class="btn btn-primary" onclick="lookupByCert()">Look Up</button>
+    </div>
+
+    <p style="color:#888; text-align:center; margin-bottom:1.5rem;">— or upload an image —</p>
+
+    <div class="upload-box">
+      <input type="file" id="image-input" class="file-input" accept="image/*" />
+    </div>
+
+    <section class="centering-tool card-section">
+      <div class="centering-header">
+        <h3>Centering Checker</h3>
+        <p>Upload a card image, then drag the 8 guide lines to mark where each border starts and ends. The tool measures left, right, top, and bottom border widths, then calculates centering percentages from those widths.</p>
+      </div>
+
+      <div class="centering-layout">
+        <div class="canvas-panel">
+          <div id="canvas-wrapper" class="canvas-wrapper empty">
+            <canvas id="centering-canvas"></canvas>
+            <div id="canvas-placeholder" class="canvas-placeholder">
+              Upload an image to start using the centering checker.
+            </div>
+          </div>
+          <p class="canvas-help">Use L start/L end, R start/R end, T start/T end, and B start/B end to mark each border thickness. The blue box shows the inner art area.</p>
+        </div>
+
+        <div class="measurements-panel">
+          <div class="measurement-grid">
+            <div class="measurement-item">
+              <span class="measurement-label">Left Border</span>
+              <span class="measurement-value" id="left-length">0 px</span>
+            </div>
+            <div class="measurement-item">
+              <span class="measurement-label">Right Border</span>
+              <span class="measurement-value" id="right-length">0 px</span>
+            </div>
+            <div class="measurement-item">
+              <span class="measurement-label">Top Border</span>
+              <span class="measurement-value" id="top-length">0 px</span>
+            </div>
+            <div class="measurement-item">
+              <span class="measurement-label">Bottom Border</span>
+              <span class="measurement-value" id="bottom-length">0 px</span>
+            </div>
+          </div>
+
+          <div class="measurement-grid percentages-grid">
+            <div class="measurement-item highlight-item">
+              <span class="measurement-label">Left %</span>
+              <span class="measurement-value" id="left-percent">0%</span>
+            </div>
+            <div class="measurement-item highlight-item">
+              <span class="measurement-label">Right %</span>
+              <span class="measurement-value" id="right-percent">0%</span>
+            </div>
+            <div class="measurement-item highlight-item">
+              <span class="measurement-label">Top %</span>
+              <span class="measurement-value" id="top-percent">0%</span>
+            </div>
+            <div class="measurement-item highlight-item">
+              <span class="measurement-label">Bottom %</span>
+              <span class="measurement-value" id="bottom-percent">0%</span>
+            </div>
+          </div>
+
+          <div class="summary-box">
+            <p><strong>Left / Right Centering:</strong> <span id="horizontal-summary">0 / 0</span></p>
+            <p><strong>Top / Bottom Centering:</strong> <span id="vertical-summary">0 / 0</span></p>
+          </div>
+
+          <div class="checker-actions checker-actions-stack">
+            <button class="btn btn-secondary" type="button" onclick="resetGuides()">Reset Lines</button>
+            <button class="btn btn-primary" type="button" onclick="analyzeImage()">Show Grade Result</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="results-box" id="results">
+      <p style="color:#888">Results will appear here after analysis.</p>
+    </div>
+  </main>
+
+  <script src="../js/regrade.js"></script>
+</body>
+</html>

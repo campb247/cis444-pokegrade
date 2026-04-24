@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PokéGrade</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>PokéGrade</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pages/regrade.html">Regrade</a>
+      <a href="pages/snipe.html">Snipe</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Find Hidden Gem PSA 9s</h2>
+      <p>Analyze Pokémon cards for their PSA 10 regrade potential and discover undervalued listings.</p>
+      <div class="cta-buttons">
+        <a href="pages/regrade.html" class="btn btn-primary">Regrade a Card</a>
+        <a href="pages/snipe.html" class="btn btn-secondary">Snipe Cards</a>
+      </div>
+    </section>
+
+    <section class="suggested-cards">
+      <h2>Top Regrade Opportunities</h2>
+      <p>Cards with the biggest price jump from PSA 9 → PSA 10</p>
+      <div id="cards-container" class="cards-grid">
+        <p>Loading suggested cards...</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Fetch suggested cards from API
+    fetch('/api/cards/suggested')
+      .then(res => res.json())
+      .then(({ data }) => {
+        const container = document.getElementById('cards-container');
+        container.innerHTML = data.map(card => `
+          <div class="card">
+            <h3>${card.name}</h3>
+            <p class="set">${card.set} · #${card.number}</p>
+            <div class="prices">
+              <span class="psa9">PSA 9: $${card.psa9Price.toLocaleString()}</span>
+              <span class="arrow">→</span>
+              <span class="psa10">PSA 10: $${card.psa10Price.toLocaleString()}</span>
+            </div>
+            <p class="diff">+$${(card.psa10Price - card.psa9Price).toLocaleString()} potential upside</p>
+          </div>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('cards-container').innerHTML = '<p>Could not load cards. Is the server running?</p>';
+      });
+  </script>
+</body>
+</html>
