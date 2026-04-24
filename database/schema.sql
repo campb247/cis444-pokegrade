@@ -26,3 +26,6 @@ CREATE TABLE IF NOT EXISTS regrade_results (
   analyzed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (card_id) REFERENCES cards(id)
 );
+
+ALTER TABLE cards
+ADD COLUMN current_grade VARCHAR(32) NULL AFTER card_number;
