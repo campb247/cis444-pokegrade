@@ -1,11 +1,18 @@
+// data access for cards table
+// rows use snake_case columns, controllers normalize to camelCase
+
 const db = require('../config/db');
 
 const Card = {
+  // returns every row, currently unused outside ad-hoc debugging
   getAll: async () => {
     const result = await db.query('SELECT * FROM cards');
     return result.rows;
   },
 
+  // returns priced cards sorted by psa9 -> psa10 upside, descending
+  // skips rows where either price is null (e.g. psa-cached lookups without price data)
+  // COALESCE keeps query robust if pricing schema changes
   getSuggested: async () => {
     const result = await db.query(`
       SELECT *,
@@ -18,6 +25,8 @@ const Card = {
     return result.rows;
   },
 
+  // cache lookup keyed on cert_number
+  // returns null if no row exists
   findByCert: async (certNumber) => {
     const result = await db.query(
       'SELECT * FROM cards WHERE cert_number = $1',
@@ -27,6 +36,8 @@ const Card = {
     return result.rows[0] || null;
   },
 
+  // upsert keyed on cert_number
+  // ON CONFLICT keeps psa lookups idempotent across repeat queries
   createOrUpdate: async ({
     certNumber,
     cardName,

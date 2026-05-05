@@ -1,3 +1,6 @@
+<!-- pokegrade homepage -->
+<!-- entry point, links to regrade and snipe pages -->
+<!-- bottom section pulls seeded cards from /api/cards/suggested -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +10,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- shared header / nav, repeated on subpages -->
   <header>
     <h1>PokéGrade</h1>
     <nav>
@@ -17,6 +21,7 @@
   </header>
 
   <main>
+    <!-- hero pitch + cta buttons to main features -->
     <section class="hero">
       <h2>Find Hidden Gem PSA 9s</h2>
       <p>Analyze Pokémon cards for their PSA 10 regrade potential and discover undervalued listings.</p>
@@ -26,9 +31,11 @@
       </div>
     </section>
 
+    <!-- suggested cards section -->
+    <!-- populated below by inline script, renders into #cards-container -->
     <section class="suggested-cards">
       <h2>Top Regrade Opportunities</h2>
-      <p>Cards with the biggest price jump from PSA 9 → PSA 10</p>
+      <p>Cards with the biggest price jump from PSA 9 to PSA 10</p>
       <div id="cards-container" class="cards-grid">
         <p>Loading suggested cards...</p>
       </div>
@@ -36,15 +43,19 @@
   </main>
 
   <script>
-    // Fetch suggested cards from API
+    // fetches suggested cards on page load
+    // renders each as anchor that deep-links to regrade page with cert pre-filled
     fetch('/api/cards/suggested')
       .then(res => res.json())
       .then(({ data }) => {
         const container = document.getElementById('cards-container');
+        // empty-state guard for fresh installs without seed data
         if (!data || !data.length) {
           container.innerHTML = '<p>No suggested cards yet.</p>';
           return;
         }
+        // each card is anchor not div, click navigates to regrade?cert=X
+        // onerror hides broken images instead of showing alt text box
         container.innerHTML = data.map(card => `
           <a class="card card-link" href="pages/regrade.html?cert=${encodeURIComponent(card.certNumber)}">
             ${card.imageUrl ? `<img class="card-image" src="${card.imageUrl}" alt="${card.name}" onerror="this.style.display='none'"/>` : ''}
@@ -60,6 +71,7 @@
         `).join('');
       })
       .catch(() => {
+        // network or json error, server likely down
         document.getElementById('cards-container').innerHTML = '<p>Could not load cards. Is the server running?</p>';
       });
   </script>

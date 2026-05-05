@@ -1,12 +1,16 @@
+<!-- snipe page -->
+<!-- search box + results list of curated psa 9 listings -->
+<!-- behavior wired in ../js/snipe.js, auto-loads listings on page open -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Snipe – PokéGrade</title>
+  <title>Snipe - PokéGrade</title>
   <link rel="stylesheet" href="../css/style.css"/>
 </head>
 <body>
+  <!-- shared header / nav -->
   <header>
     <h1>PokéGrade</h1>
     <nav>
@@ -20,11 +24,14 @@
     <h2 class="page-title">Snipe Cards</h2>
     <p class="page-subtitle">Search eBay for PSA 9 listings sorted by newest. The freshest listings are least likely to have been reviewed by other collectors.</p>
 
+    <!-- search input, button calls searchCards() in snipe.js -->
+    <!-- empty input is allowed and returns all listings -->
     <div class="input-group">
       <input type="text" id="card-input" placeholder="Card name (e.g. Charizard Base Set)" />
       <button class="btn btn-primary" onclick="searchCards()">Search eBay</button>
     </div>
 
+    <!-- results target, snipe.js writes listing cards here -->
     <div class="results-box" id="results">
       <p style="color:#888">Search results will appear here.</p>
     </div>

@@ -1,12 +1,17 @@
+<!-- regrade page -->
+<!-- combines psa cert lookup with manual centering checker -->
+<!-- accepts ?cert=X param from snipe / homepage cards for auto-lookup -->
+<!-- behavior wired in ../js/regrade.js -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Regrade – PokéGrade</title>
+  <title>Regrade - PokéGrade</title>
   <link rel="stylesheet" href="../css/style.css"/>
 </head>
 <body>
+  <!-- shared header / nav -->
   <header>
     <h1>PokéGrade</h1>
     <nav>
@@ -20,6 +25,8 @@
     <h2 class="page-title">Regrade a Card</h2>
     <p class="page-subtitle">Enter a PSA certification number or upload a card image to analyze its regrade potential.</p>
 
+    <!-- cert lookup input, button calls lookupByCert() -->
+    <!-- value also populated by URL param handler in regrade.js on page load -->
     <div class="input-group">
       <input type="text" id="cert-input" placeholder="PSA Certification Number (e.g. 12345678)" />
       <button class="btn btn-primary" onclick="lookupByCert()">Look Up</button>
@@ -27,10 +34,15 @@
 
     <p style="color:#888; text-align:center; margin-bottom:1.5rem;">or upload an image</p>
 
+    <!-- file picker for centering checker -->
+    <!-- accepts any image type, drawn to canvas below -->
     <div class="upload-box">
       <input type="file" id="image-input" class="file-input" accept="image/*" />
     </div>
 
+    <!-- centering checker -->
+    <!-- canvas hosts loaded image plus 8 draggable guide lines -->
+    <!-- measurements panel updates live as guides move -->
     <section class="centering-tool card-section">
       <div class="centering-header">
         <h3>Centering Checker</h3>
@@ -38,9 +50,12 @@
       </div>
 
       <div class="centering-layout">
+        <!-- left side: canvas + image -->
         <div class="canvas-panel">
+          <!-- wrapper with .empty class hides canvas until image loads -->
           <div id="canvas-wrapper" class="canvas-wrapper empty">
             <canvas id="centering-canvas"></canvas>
+            <!-- placeholder shown until first image load, hidden after -->
             <div id="canvas-placeholder" class="canvas-placeholder">
               Upload an image to start using the centering checker.
             </div>
@@ -48,7 +63,10 @@
           <p class="canvas-help">Use L start/L end, R start/R end, T start/T end, and B start/B end to mark each border thickness. The blue box shows the inner art area.</p>
         </div>
 
+        <!-- right side: measurements -->
+        <!-- ids referenced by regrade.js outputEls map -->
         <div class="measurements-panel">
+          <!-- raw pixel widths of each border -->
           <div class="measurement-grid">
             <div class="measurement-item">
               <span class="measurement-label">Left Border</span>
@@ -68,6 +86,8 @@
             </div>
           </div>
 
+          <!-- centering percentages, computed from border widths -->
+          <!-- 50/50 ideal, 55/45 or closer is psa 10 territory -->
           <div class="measurement-grid percentages-grid">
             <div class="measurement-item highlight-item">
               <span class="measurement-label">Left %</span>
@@ -87,11 +107,14 @@
             </div>
           </div>
 
+          <!-- combined summary readout -->
           <div class="summary-box">
             <p><strong>Left / Right Centering:</strong> <span id="horizontal-summary">0 / 0</span></p>
             <p><strong>Top / Bottom Centering:</strong> <span id="vertical-summary">0 / 0</span></p>
           </div>
 
+          <!-- reset returns guides to default position -->
+          <!-- show grade result triggers analyzeImage() and renders verdict in #results -->
           <div class="checker-actions checker-actions-stack">
             <button class="btn btn-secondary" type="button" onclick="resetGuides()">Reset Lines</button>
             <button class="btn btn-primary" type="button" onclick="analyzeImage()">Show Grade Result</button>
@@ -100,6 +123,8 @@
       </div>
     </section>
 
+    <!-- shared results target -->
+    <!-- lookupByCert and analyzeImage both render here -->
     <div class="results-box" id="results">
       <p style="color:#888">Results will appear here after analysis.</p>
     </div>

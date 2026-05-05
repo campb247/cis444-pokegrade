@@ -1,10 +1,9 @@
-/**
- * Snipe Controller
- * Returns curated PSA 9 listings for the demo.
- * In production this would call the eBay Browse API; for now it returns
- * a static set of listings filtered by card name.
- */
+// controller for /api/snipe
+// returns curated psa 9 listings for demo and class scope
+// production target: ebay browse api with oauth, kept static here
 
+// cert numbers point to seeded rows in cards table
+// clicking "analyze" on frontend hits db cache for instant lookup
 const LISTINGS = [
   {
     certNumber: '11223344',
@@ -98,6 +97,8 @@ const LISTINGS = [
   }
 ];
 
+// case-insensitive substring filter on title
+// empty query returns all listings, used by frontend auto-load on page open
 exports.searchCards = async (req, res) => {
   try {
     const query = (req.query.card || '').trim().toLowerCase();
@@ -106,6 +107,7 @@ exports.searchCards = async (req, res) => {
       ? LISTINGS.filter(l => l.title.toLowerCase().includes(query))
       : LISTINGS;
 
+    // message text doubles as empty-state guidance for frontend
     res.json({
       success: true,
       data: filtered,
