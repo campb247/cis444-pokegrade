@@ -226,28 +226,38 @@ function drawCanvas() {
   updateMeasurements();
 }
 
+function applyImageToCanvas(img) {
+  centeringState.image = img;
+  centeringState.imageWidth = img.width;
+  centeringState.imageHeight = img.height;
+  canvas.width = img.width;
+  canvas.height = img.height;
+  centeringState.ready = true;
+
+  setDefaultGuides();
+  canvasWrapper.classList.remove('empty');
+  canvasPlaceholder.style.display = 'none';
+  drawCanvas();
+}
+
 function loadImageForCentering(file) {
   const reader = new FileReader();
-
   reader.onload = event => {
     const img = new Image();
-    img.onload = () => {
-      centeringState.image = img;
-      centeringState.imageWidth = img.width;
-      centeringState.imageHeight = img.height;
-      canvas.width = img.width;
-      canvas.height = img.height;
-      centeringState.ready = true;
-
-      setDefaultGuides();
-      canvasWrapper.classList.remove('empty');
-      canvasPlaceholder.style.display = 'none';
-      drawCanvas();
-    };
+    img.onload = () => applyImageToCanvas(img);
     img.src = event.target.result;
   };
-
   reader.readAsDataURL(file);
+}
+
+function loadImageForCenteringFromUrl(url) {
+  if (!url) return;
+  const img = new Image();
+  img.onload = () => applyImageToCanvas(img);
+  img.onerror = () => {
+    canvasPlaceholder.textContent = 'Could not load card image into the centering tool. Try uploading manually.';
+  };
+  img.src = url;
 }
 
 function findGuideTarget(point) {
@@ -390,8 +400,10 @@ async function lookupByCert() {
       <p class="grade-row"><span class="grade-label">Set</span><span class="grade-value">${set}</span></p>
       <p class="grade-row"><span class="grade-label">Card Number</span><span class="grade-value">${cardNum}</span></p>
       <p class="grade-row"><span class="grade-label">Current Grade</span><span class="grade-value">${grade}</span></p>
-      <p style="color:#666; margin-top:1rem; font-size:0.85rem">Source: ${payload.source}</p>
+      <p style="color:#666; margin-top:1rem; font-size:0.85rem">Source: ${payload.source}. Card image loaded into the centering checker above.</p>
     `;
+
+    loadImageForCenteringFromUrl(imageUrl);
   } catch (err) {
     resultsBox.innerHTML = '<p style="color:#e63946">Error contacting server. Is it running?</p>';
   }
