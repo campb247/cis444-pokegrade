@@ -41,8 +41,13 @@
       .then(res => res.json())
       .then(({ data }) => {
         const container = document.getElementById('cards-container');
+        if (!data || !data.length) {
+          container.innerHTML = '<p>No suggested cards yet.</p>';
+          return;
+        }
         container.innerHTML = data.map(card => `
-          <div class="card">
+          <a class="card card-link" href="pages/regrade.html?cert=${encodeURIComponent(card.certNumber)}">
+            ${card.imageUrl ? `<img class="card-image" src="${card.imageUrl}" alt="${card.name}" onerror="this.style.display='none'"/>` : ''}
             <h3>${card.name}</h3>
             <p class="set">${card.set} · #${card.number}</p>
             <div class="prices">
@@ -51,7 +56,7 @@
               <span class="psa10">PSA 10: $${card.psa10Price.toLocaleString()}</span>
             </div>
             <p class="diff">+$${(card.psa10Price - card.psa9Price).toLocaleString()} potential upside</p>
-          </div>
+          </a>
         `).join('');
       })
       .catch(() => {

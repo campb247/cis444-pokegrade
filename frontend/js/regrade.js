@@ -374,9 +374,9 @@ async function lookupByCert() {
 
     const d = payload.data;
     const name = d.cardName || d.card_name || 'Unknown Card';
-    const set = d.setName || d.card_set || '—';
-    const cardNum = d.cardNumber || d.card_number || '—';
-    const grade = d.currentGrade || d.current_grade || '—';
+    const set = d.setName || d.card_set || '-';
+    const cardNum = d.cardNumber || d.card_number || '-';
+    const grade = d.currentGrade || d.current_grade || '-';
     const imageUrl = d.imageUrl || d.image_url || null;
 
     const imageBlock = imageUrl
@@ -423,3 +423,15 @@ async function analyzeImage() {
     `;
   }, 250);
 }
+
+// If the page is opened with ?cert=XXX (e.g. from the Snipe page),
+// pre-fill the cert input, trigger the lookup, and scroll to the result.
+document.addEventListener('DOMContentLoaded', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const cert = params.get('cert');
+  if (!cert) return;
+
+  document.getElementById('cert-input').value = cert;
+  await lookupByCert();
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});

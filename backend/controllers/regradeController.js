@@ -12,7 +12,7 @@ exports.analyzeCard = async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Regrade analysis endpoint — implementation in progress',
+      message: 'Regrade analysis endpoint: implementation in progress',
       data: {
         estimatedGrade: null,
         centering: null,
@@ -61,7 +61,7 @@ exports.lookupByCert = async (req, res) => {
         imageUrl = front.ImageURL || null;
       }
     } catch (_) {
-      // Image lookup is best-effort — fall through with imageUrl=null
+      // Image lookup is best-effort: fall through with imageUrl=null
     }
 
     const normalizedCard = {
