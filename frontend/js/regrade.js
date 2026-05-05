@@ -410,10 +410,12 @@ async function lookupByCert() {
 }
 
 async function analyzeImage() {
-  if (!fileInput.files.length) return alert('Please select an image file.');
-
   if (!centeringState.ready) {
-    loadImageForCentering(fileInput.files[0]);
+    if (fileInput.files.length) {
+      loadImageForCentering(fileInput.files[0]);
+    } else {
+      return alert('Look up a PSA cert or upload an image first.');
+    }
   }
 
   const resultsBox = document.getElementById('results');
