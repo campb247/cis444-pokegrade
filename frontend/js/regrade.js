@@ -365,11 +365,32 @@ async function lookupByCert() {
 
   try {
     const res = await fetch(`/api/regrade/psa/${certNumber}`);
-    const { data, message } = await res.json();
+    const payload = await res.json();
+
+    if (!res.ok || !payload.success) {
+      resultsBox.innerHTML = `<p style="color:#e63946">${payload.error || 'Lookup failed'}</p>`;
+      return;
+    }
+
+    const d = payload.data;
+    const name = d.cardName || d.card_name || 'Unknown Card';
+    const set = d.setName || d.card_set || '—';
+    const cardNum = d.cardNumber || d.card_number || '—';
+    const grade = d.currentGrade || d.current_grade || '—';
+    const imageUrl = d.imageUrl || d.image_url || null;
+
+    const imageBlock = imageUrl
+      ? `<img src="${imageUrl}" alt="PSA cert ${certNumber}" style="max-width:240px; border-radius:8px; margin-bottom:1rem; display:block;" />`
+      : `<p style="color:#666; font-size:0.85rem; margin-bottom:1rem;">No image available for this cert.</p>`;
 
     resultsBox.innerHTML = `
       <p style="color:#f4d03f; margin-bottom:1rem">Cert #${certNumber}</p>
-      <p style="color:#888">${message}</p>
+      ${imageBlock}
+      <p class="grade-row"><span class="grade-label">Card</span><span class="grade-value">${name}</span></p>
+      <p class="grade-row"><span class="grade-label">Set</span><span class="grade-value">${set}</span></p>
+      <p class="grade-row"><span class="grade-label">Card Number</span><span class="grade-value">${cardNum}</span></p>
+      <p class="grade-row"><span class="grade-label">Current Grade</span><span class="grade-value">${grade}</span></p>
+      <p style="color:#666; margin-top:1rem; font-size:0.85rem">Source: ${payload.source}</p>
     `;
   } catch (err) {
     resultsBox.innerHTML = '<p style="color:#e63946">Error contacting server. Is it running?</p>';

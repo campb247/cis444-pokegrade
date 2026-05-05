@@ -44,23 +44,35 @@ exports.lookupByCert = async (req, res) => {
     }
 
     const psaData = await psaService.getCertByNumber(certNumber);
+    const cert = psaData?.PSACert;
 
-    if (!psaData || psaData.IsValidRequest === false) {
+    if (!cert) {
       return res.status(404).json({
         success: false,
-        error: psaData?.ServerMessage || 'Card not found'
+        error: 'Card not found'
       });
+    }
+
+    let imageUrl = null;
+    try {
+      const images = await psaService.getImagesByCertNumber(certNumber);
+      if (Array.isArray(images) && images.length) {
+        const front = images.find(img => img.IsFrontImage) || images[0];
+        imageUrl = front.ImageURL || null;
+      }
+    } catch (_) {
+      // Image lookup is best-effort — fall through with imageUrl=null
     }
 
     const normalizedCard = {
       certNumber,
-      cardName: psaData.SpecDescription || psaData.Subject || 'Unknown Card',
-      setName: psaData.Brand || null,
-      cardNumber: psaData.CardNumber || null,
-      currentGrade: psaData.GradeDescription || psaData.Grade || null,
+      cardName: cert.Subject || 'Unknown Card',
+      setName: cert.Brand || null,
+      cardNumber: cert.CardNumber || null,
+      currentGrade: cert.GradeDescription || cert.CardGrade || null,
       psa9Price: null,
       psa10Price: null,
-      imageUrl: psaData.ImageURL || psaData.HolderImageURL || null
+      imageUrl
     };
 
     await Card.createOrUpdate(normalizedCard);

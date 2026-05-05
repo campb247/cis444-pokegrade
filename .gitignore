@@ -1,1 +1,22 @@
-backend/config/.env 
+# Dependencies
+node_modules/
+
+# Environment
+backend/config/.env
+
+# Claude Code
+.claude/
+
+# macOS
+.DS_Store
+
+# iCloud / OneDrive duplicate files
+* 2
+* 2.*
+* 3
+* 3.*
+
+# .mmd, .pdf, and .txt files
+*.txt
+*.pdf
+*.mmd

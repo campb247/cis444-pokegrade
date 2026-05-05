@@ -15,6 +15,20 @@ async function getCertByNumber(certNumber) {
   return response.data;
 }
 
+async function getImagesByCertNumber(certNumber) {
+  const response = await axios.get(
+    `${PSA_BASE_URL}/cert/GetImagesByCertNumber/${certNumber}`,
+    {
+      headers: {
+        Authorization: `bearer ${process.env.PSA_ACCESS_TOKEN}`
+      }
+    }
+  );
+
+  return response.data;
+}
+
 module.exports = {
-  getCertByNumber
+  getCertByNumber,
+  getImagesByCertNumber
 };
