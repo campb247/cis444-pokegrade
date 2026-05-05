@@ -1,0 +1,1 @@
+window.API_BASE_URL = 'https://lga46ssezgrep7it2hmiqlfx5m0audrp.lambda-url.us-west-1.on.aws/'

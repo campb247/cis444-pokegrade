@@ -42,10 +42,11 @@
     </section>
   </main>
 
+  <script src="js/config.js"></script>
   <script>
     // fetches suggested cards on page load
     // renders each as anchor that deep-links to regrade page with cert pre-filled
-    fetch('/api/cards/suggested')
+    fetch(`${window.API_BASE_URL}/api/cards/suggested`)
       .then(res => res.json())
       .then(({ data }) => {
         const container = document.getElementById('cards-container');

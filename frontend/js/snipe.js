@@ -16,7 +16,7 @@ async function searchCards() {
 
   try {
     // backend filters by substring match against listing title
-    const res = await fetch(`/api/snipe?card=${encodeURIComponent(cardName)}`);
+    const res = await fetch(`${window.API_BASE_URL}/api/snipe?card=${encodeURIComponent(cardName)}`);
     const { data, message } = await res.json();
 
     // empty result, show backend's friendly message verbatim
